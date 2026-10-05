@@ -19,27 +19,27 @@ This avoids prematurely maintaining many branded shells with no platform-specifi
 
 The repository currently contains the React Bits project, not a MSTRMND-branded product.
 
-| Capability | Current state | Evidence |
-| --- | --- | --- |
-| Interactive component catalog | Working | 116 components across text animations, animations, components, and backgrounds |
-| Component variants | Working | JavaScript/TypeScript × CSS/Tailwind; 462 generated registry items |
-| Documentation website | Working | Vite + React application with landing, catalog, detail, favorites, installation, MCP guidance, and showcase routes |
-| Live previews and configurable examples | Working | Demo and source trees for each component family |
-| Manual source installation | Working | Copyable component code and dependency instructions |
-| Registry installation | Working | shadcn-compatible JSON output and jsrepo build configuration |
-| AI-assisted discovery | Integration only | Documentation configures the third-party shadcn MCP server for Claude Code, Cursor, and VS Code |
-| Favorites | Local only | Browser `localStorage`; no user account or cloud synchronization |
-| Preference persistence | Local only | Language, style, package manager, and install mode are stored in the browser |
-| Community showcase | Working but externally coupled | Static entries and remotely hosted images |
-| Backend, accounts, billing, or analytics | Not present | No application backend is defined in this repository |
-| PWA installation and offline mode | Not present | A minimal web manifest exists, but no service worker or offline strategy exists |
-| Native mobile application | Not present | No iOS, Android, Capacitor, React Native, or native project |
-| Desktop application | Not present | No Tauri or Electron project |
-| Browser extension | Not present | No extension manifest or extension runtime |
-| IDE extension | Not present | No VS Code, JetBrains, or editor extension package |
-| Figma or other design-tool plugin | Not present | No design-tool plugin manifest or runtime |
-| First-party MCP server | Not present | Current MCP documentation points to the shadcn MCP server |
-| Automated release pipeline | Not present | No repository release workflow is defined |
+| Capability                               | Current state                  | Evidence                                                                                                           |
+| ---------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| Interactive component catalog            | Working                        | 116 components across text animations, animations, components, and backgrounds                                     |
+| Component variants                       | Working                        | JavaScript/TypeScript × CSS/Tailwind; 462 generated registry items                                                 |
+| Documentation website                    | Working                        | Vite + React application with landing, catalog, detail, favorites, installation, MCP guidance, and showcase routes |
+| Live previews and configurable examples  | Working                        | Demo and source trees for each component family                                                                    |
+| Manual source installation               | Working                        | Copyable component code and dependency instructions                                                                |
+| Registry installation                    | Working                        | shadcn-compatible JSON output and jsrepo build configuration                                                       |
+| AI-assisted discovery                    | Integration only               | Documentation configures the third-party shadcn MCP server for Claude Code, Cursor, and VS Code                    |
+| Favorites                                | Local only                     | Browser `localStorage`; no user account or cloud synchronization                                                   |
+| Preference persistence                   | Local only                     | Language, style, package manager, and install mode are stored in the browser                                       |
+| Community showcase                       | Working but externally coupled | Static entries and remotely hosted images                                                                          |
+| Backend, accounts, billing, or analytics | Not present                    | No application backend is defined in this repository                                                               |
+| PWA installation and offline mode        | Not present                    | A minimal web manifest exists, but no service worker or offline strategy exists                                    |
+| Native mobile application                | Not present                    | No iOS, Android, Capacitor, React Native, or native project                                                        |
+| Desktop application                      | Not present                    | No Tauri or Electron project                                                                                       |
+| Browser extension                        | Not present                    | No extension manifest or extension runtime                                                                         |
+| IDE extension                            | Not present                    | No VS Code, JetBrains, or editor extension package                                                                 |
+| Figma or other design-tool plugin        | Not present                    | No design-tool plugin manifest or runtime                                                                          |
+| First-party MCP server                   | Not present                    | Current MCP documentation points to the shadcn MCP server                                                          |
+| Automated release pipeline               | Not present                    | No repository release workflow is defined                                                                          |
 
 ### Current architecture
 
@@ -90,13 +90,13 @@ MSTRMND is a creative experience workspace for discovering, composing, adapting,
 
 ### Product layers
 
-| Layer | Responsibility | Branding |
-| --- | --- | --- |
-| MSTRMND Workspace | Search, preview, compose, save, collaborate, and export | MSTRMND |
-| Experience Catalog | Metadata, assets, compatibility, provenance, and versioning | MSTRMND catalog with source attribution |
-| Experience Runtime | Portable schema and rendering contracts | MSTRMND |
-| Adapters | Web, desktop, mobile, browser, IDE, design tool, CLI, and MCP | MSTRMND |
-| Third-party content | Licensed components and source implementations | Original attribution retained |
+| Layer               | Responsibility                                                | Branding                                |
+| ------------------- | ------------------------------------------------------------- | --------------------------------------- |
+| MSTRMND Workspace   | Search, preview, compose, save, collaborate, and export       | MSTRMND                                 |
+| Experience Catalog  | Metadata, assets, compatibility, provenance, and versioning   | MSTRMND catalog with source attribution |
+| Experience Runtime  | Portable schema and rendering contracts                       | MSTRMND                                 |
+| Adapters            | Web, desktop, mobile, browser, IDE, design tool, CLI, and MCP | MSTRMND                                 |
+| Third-party content | Licensed components and source implementations                | Original attribution retained           |
 
 ## 5. The lower-level abstraction
 
@@ -117,16 +117,7 @@ type ExperienceManifest = {
     sourceUrl?: string;
     license: string;
   };
-  capabilities: Array<
-    | "pointer"
-    | "touch"
-    | "keyboard"
-    | "motion"
-    | "audio"
-    | "webgl"
-    | "network"
-    | "filesystem"
-  >;
+  capabilities: Array<'pointer' | 'touch' | 'keyboard' | 'motion' | 'audio' | 'webgl' | 'network' | 'filesystem'>;
   parameters: Record<string, ParameterDefinition>;
   targets: Partial<Record<Target, TargetImplementation>>;
   assets: AssetReference[];
@@ -175,19 +166,19 @@ If those examples cannot share a useful contract without leaking React internals
 
 “Available everywhere” should mean continuity of the product job, not identical functionality on every platform.
 
-| Platform | Product role | Reuse potential | Recommendation |
-| --- | --- | --- | --- |
-| Responsive web | Full workspace and canonical catalog | Highest | First release |
-| Installable PWA | Fast access, saved collections, limited offline previews | High | Add after web identity and caching are stable |
-| CLI / registry adapter | Install and export implementations | High | Keep as a first-class developer channel |
-| MCP server | Search, inspect, configure, and install through AI clients | High | Build after catalog API and permissions are stable |
-| VS Code / Cursor extension | In-editor preview and insertion | Medium-high | Validate demand after CLI/MCP |
-| Browser extension | Capture inspiration or inspect compatible experiences on a page | Medium | Ship only with a clear browser-native workflow |
-| macOS / Windows / Linux | Focused workspace, local files, offline assets | High with Tauri/web shell | Package after the web product proves desktop-specific value |
-| iOS / Android | Browse, save, review, and lightweight parameter editing | Medium | Avoid a simple web wrapper; define touch-native jobs first |
-| Figma plugin | Search, place static/motion references, sync tokens and specs | Medium-low | Requires purpose-built renderer/exporter |
-| Adobe/Canva/other plugins | Tool-specific creation workflows | Low initially | Scope individually after Figma validation |
-| Native SDKs | Embed production-native experiences | Low | Separate product line; do not promise in initial launch |
+| Platform                   | Product role                                                    | Reuse potential           | Recommendation                                              |
+| -------------------------- | --------------------------------------------------------------- | ------------------------- | ----------------------------------------------------------- |
+| Responsive web             | Full workspace and canonical catalog                            | Highest                   | First release                                               |
+| Installable PWA            | Fast access, saved collections, limited offline previews        | High                      | Add after web identity and caching are stable               |
+| CLI / registry adapter     | Install and export implementations                              | High                      | Keep as a first-class developer channel                     |
+| MCP server                 | Search, inspect, configure, and install through AI clients      | High                      | Build after catalog API and permissions are stable          |
+| VS Code / Cursor extension | In-editor preview and insertion                                 | Medium-high               | Validate demand after CLI/MCP                               |
+| Browser extension          | Capture inspiration or inspect compatible experiences on a page | Medium                    | Ship only with a clear browser-native workflow              |
+| macOS / Windows / Linux    | Focused workspace, local files, offline assets                  | High with Tauri/web shell | Package after the web product proves desktop-specific value |
+| iOS / Android              | Browse, save, review, and lightweight parameter editing         | Medium                    | Avoid a simple web wrapper; define touch-native jobs first  |
+| Figma plugin               | Search, place static/motion references, sync tokens and specs   | Medium-low                | Requires purpose-built renderer/exporter                    |
+| Adobe/Canva/other plugins  | Tool-specific creation workflows                                | Low initially             | Scope individually after Figma validation                   |
+| Native SDKs                | Embed production-native experiences                             | Low                       | Separate product line; do not promise in initial launch     |
 
 ## 7. Release sequence
 
@@ -325,17 +316,17 @@ Every channel should support staged rollout, rollback, telemetry opt-out, and a 
 
 ## 10. Decisions still required
 
-| Decision | Why it matters |
-| --- | --- |
-| What is the first paid or strategic user job? | Determines whether the product is a workspace, catalog, toolchain, or content business |
-| Is MSTRMND the company, platform, or product name? | Controls package names and store identity |
-| What original MSTRMND content exists outside this repository? | This inventory currently covers only the checked-out repository |
-| What rights exist for the React Bits source and brand? | Blocks rebranding or redistribution decisions |
-| Who is the first audience: developers, designers, creators, or teams? | Changes the initial channel and feature set |
-| Is cloud sync required for the first release? | Determines backend, authentication, and privacy scope |
-| Which platform has a unique workflow beyond the web app? | Prevents low-value wrappers |
-| What is free, paid, or enterprise? | Affects licensing, billing, entitlements, and store policy |
-| Which geographies and age groups are supported? | Affects privacy, content, and store compliance |
+| Decision                                                              | Why it matters                                                                         |
+| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| What is the first paid or strategic user job?                         | Determines whether the product is a workspace, catalog, toolchain, or content business |
+| Is MSTRMND the company, platform, or product name?                    | Controls package names and store identity                                              |
+| What original MSTRMND content exists outside this repository?         | This inventory currently covers only the checked-out repository                        |
+| What rights exist for the React Bits source and brand?                | Blocks rebranding or redistribution decisions                                          |
+| Who is the first audience: developers, designers, creators, or teams? | Changes the initial channel and feature set                                            |
+| Is cloud sync required for the first release?                         | Determines backend, authentication, and privacy scope                                  |
+| Which platform has a unique workflow beyond the web app?              | Prevents low-value wrappers                                                            |
+| What is free, paid, or enterprise?                                    | Affects licensing, billing, entitlements, and store policy                             |
+| Which geographies and age groups are supported?                       | Affects privacy, content, and store compliance                                         |
 
 ## 11. Recommended immediate scope
 
@@ -351,36 +342,36 @@ Every channel should support staged rollout, rollback, telemetry opt-out, and a 
 
 Use one row for every artifact not represented in this repository.
 
-| Field | Value |
-| --- | --- |
-| Product or prototype name | |
-| Repository / design / deployment URL | |
-| Owner | |
-| Intended user | |
-| User job | |
-| Current status | concept / prototype / alpha / production / retired |
-| Platforms | |
-| Technology | |
-| Data and external services | |
-| Authentication | |
-| Distribution channel | |
-| License and third-party content | |
-| Brand currently shown | |
-| Known users or usage | |
-| Maintenance owner | |
-| Recommended disposition | merge / package / rewrite / archive / investigate |
+| Field                                | Value                                              |
+| ------------------------------------ | -------------------------------------------------- |
+| Product or prototype name            |                                                    |
+| Repository / design / deployment URL |                                                    |
+| Owner                                |                                                    |
+| Intended user                        |                                                    |
+| User job                             |                                                    |
+| Current status                       | concept / prototype / alpha / production / retired |
+| Platforms                            |                                                    |
+| Technology                           |                                                    |
+| Data and external services           |                                                    |
+| Authentication                       |                                                    |
+| Distribution channel                 |                                                    |
+| License and third-party content      |                                                    |
+| Brand currently shown                |                                                    |
+| Known users or usage                 |                                                    |
+| Maintenance owner                    |                                                    |
+| Recommended disposition              | merge / package / rewrite / archive / investigate  |
 
 ## Appendix B — Working release scorecard
 
 Score each candidate from 0–3 before adding a platform:
 
-| Criterion | 0 | 1 | 2 | 3 |
-| --- | --- | --- | --- | --- |
-| User evidence | None | Anecdotal | Repeated requests | Demonstrated usage |
-| Platform-native value | Wrapper only | Minor convenience | Meaningful workflow | Requires platform capability |
-| Shared-core reuse | None | Low | Moderate | High |
-| Rights readiness | Blocked | Unclear | Reviewable | Cleared |
-| Operational readiness | None | Manual | Partially automated | Release and rollback automated |
-| Support capacity | None | Unassigned | Shared owner | Dedicated owner and policy |
+| Criterion             | 0            | 1                 | 2                   | 3                              |
+| --------------------- | ------------ | ----------------- | ------------------- | ------------------------------ |
+| User evidence         | None         | Anecdotal         | Repeated requests   | Demonstrated usage             |
+| Platform-native value | Wrapper only | Minor convenience | Meaningful workflow | Requires platform capability   |
+| Shared-core reuse     | None         | Low               | Moderate            | High                           |
+| Rights readiness      | Blocked      | Unclear           | Reviewable          | Cleared                        |
+| Operational readiness | None         | Manual            | Partially automated | Release and rollback automated |
+| Support capacity      | None         | Unassigned        | Shared owner        | Dedicated owner and policy     |
 
 A platform should not enter implementation with a rights-readiness score below 3 or a platform-native-value score below 2.
